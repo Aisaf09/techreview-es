@@ -14,7 +14,7 @@ import ReviewCard from '@/components/ReviewCard'
 import { CATEGORY_LABELS } from '@/types'
 import { Clock, Calendar, ArrowRight, Check, X } from 'lucide-react'
 import { formatDate, formatPrice } from '@/lib/utils'
-import { getLatestReviews } from '@/lib/mdx'
+import { getRelatedReviews } from '@/lib/mdx'
 
 interface Props { params: { slug: string } }
 
@@ -33,7 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title:       frontmatter.title,
     description: frontmatter.description,
-    alternates:  { canonical: url },
+    alternates:  {
+      canonical: url,
+      languages: { 'es': url, 'x-default': url },
+    },
+    robots: { index: true, follow: true },
     openGraph: {
       title:         frontmatter.title,
       description:   frontmatter.description,
@@ -58,7 +62,7 @@ export default function ReviewPage({ params }: Props) {
   const { frontmatter, content, readingTime } = review
   const jsonLd    = reviewJsonLd(frontmatter, params.slug)
   const minPrice  = Math.min(...frontmatter.affiliateLinks.map((l) => l.price))
-  const related   = getLatestReviews(3).filter((r) => r?.slug !== params.slug).slice(0, 3)
+  const related   = getRelatedReviews(params.slug, frontmatter.category, 3)
 
   const ratingColor = frontmatter.rating >= 4.5 ? 'text-green-600' : frontmatter.rating >= 4.0 ? 'text-amber-600' : 'text-orange-600'
 

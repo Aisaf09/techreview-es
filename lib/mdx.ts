@@ -65,3 +65,9 @@ export function getFeaturedReviews(limit = 3) {
 export function getLatestReviews(limit = 6) {
   return getAllReviews().slice(0, limit)
 }
+
+export function getRelatedReviews(currentSlug: string, category: string, limit = 3) {
+  return getAllReviews()
+    .filter((r) => r?.slug !== currentSlug && r?.frontmatter.category === category)
+    .slice(0, limit)
+}

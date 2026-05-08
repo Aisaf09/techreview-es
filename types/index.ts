@@ -1,3 +1,8 @@
+export interface FaqItem {
+  q: string
+  a: string
+}
+
 export interface ReviewFrontmatter {
   title: string
   slug: string
@@ -26,6 +31,7 @@ export interface ComparativaFrontmatter {
   productB: CompareProduct
   verdict: string
   winner: 'A' | 'B' | 'tie'
+  faqs?: FaqItem[]
 }
 
 export interface MejorFrontmatter {
@@ -37,6 +43,8 @@ export interface MejorFrontmatter {
   maxPrice: number
   currency: string
   products: MejorProduct[]
+  faqs?: FaqItem[]
+  buyingGuideTitle?: string
 }
 
 export interface CompareProduct {
