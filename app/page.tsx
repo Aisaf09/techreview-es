@@ -1,18 +1,19 @@
 import Link from 'next/link'
-import { ArrowRight, Shield, Zap, BarChart3, Star } from 'lucide-react'
+import { ArrowRight, Shield, Zap, BarChart3, Star, Laptop, Smartphone, Headphones, Tablet, Monitor } from 'lucide-react'
 import ReviewCard from '@/components/ReviewCard'
 import { getLatestReviews, getFeaturedReviews, getAllReviews } from '@/lib/mdx'
 import { CATEGORY_LABELS } from '@/types'
 import type { Category } from '@/types'
+import type { ReactNode } from 'react'
 
 const categories = Object.keys(CATEGORY_LABELS) as Category[]
 
-const categoryMeta: Record<Category, { icon: string; desc: string; gradient: string }> = {
-  portatiles:  { icon: '💻', desc: 'Ultrabooks, gaming, profesional', gradient: 'from-blue-500 to-indigo-600' },
-  moviles:     { icon: '📱', desc: 'Flagship, gama media, cámaras',  gradient: 'from-violet-500 to-purple-700' },
-  auriculares: { icon: '🎧', desc: 'ANC, gaming, true wireless',      gradient: 'from-rose-500 to-pink-700' },
-  tablets:     { icon: '📋', desc: 'iPad, Android, productividad',    gradient: 'from-amber-500 to-orange-600' },
-  monitores:   { icon: '🖥️', desc: 'Gaming, 4K, OLED, curvo',        gradient: 'from-teal-500 to-cyan-700' },
+const categoryMeta: Record<Category, { icon: ReactNode; desc: string; gradient: string }> = {
+  portatiles:  { icon: <Laptop  size={28} className="text-white" aria-hidden="true" />, desc: 'Ultrabooks, gaming, profesional', gradient: 'from-blue-500 to-indigo-600' },
+  moviles:     { icon: <Smartphone size={28} className="text-white" aria-hidden="true" />, desc: 'Flagship, gama media, cámaras',  gradient: 'from-violet-500 to-purple-700' },
+  auriculares: { icon: <Headphones size={28} className="text-white" aria-hidden="true" />, desc: 'ANC, gaming, true wireless',      gradient: 'from-rose-500 to-pink-700' },
+  tablets:     { icon: <Tablet  size={28} className="text-white" aria-hidden="true" />, desc: 'iPad, Android, productividad',    gradient: 'from-amber-500 to-orange-600' },
+  monitores:   { icon: <Monitor  size={28} className="text-white" aria-hidden="true" />, desc: 'Gaming, 4K, OLED, curvo',        gradient: 'from-teal-500 to-cyan-700' },
 }
 
 export default function HomePage() {
@@ -68,7 +69,7 @@ export default function HomePage() {
             {[
               { label: 'Reviews', value: `${totalCount}+` },
               { label: 'Categorías', value: '5' },
-              { label: 'Nota media', value: '4.5★' },
+              { label: 'Nota media', value: '4.5' },
             ].map((stat) => (
               <div key={stat.label} className="glass rounded-2xl px-5 py-3 text-center">
                 <p className="text-white font-black text-xl">{stat.value}</p>
@@ -89,14 +90,14 @@ export default function HomePage() {
           ].map((item, i) => (
             <div
               key={i}
-              className={`reveal bg-white rounded-2xl p-5 card-shadow flex gap-4 items-start animation-delay-${i * 100}`}
+              className={`reveal bg-white dark:bg-gray-800 rounded-2xl p-5 card-shadow flex gap-4 items-start animation-delay-${i * 100}`}
             >
-              <div className="shrink-0 w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center">
+              <div className="shrink-0 w-10 h-10 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center">
                 {item.icon}
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-0.5">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-snug">{item.desc}</p>
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-0.5">{item.title}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-snug">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -108,7 +109,7 @@ export default function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <p className="text-brand-600 font-semibold text-sm uppercase tracking-widest mb-1">Explorar</p>
-            <h2 className="text-3xl font-black text-gray-900">Por categoría</h2>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white">Por categoría</h2>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -123,7 +124,7 @@ export default function HomePage() {
               >
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors" />
                 <div className="relative">
-                  <span className="text-3xl mb-3 block">{meta.icon}</span>
+                  <div className="mb-3">{meta.icon}</div>
                   <p className="font-black text-white text-sm">{CATEGORY_LABELS[cat]}</p>
                   <p className="text-white/70 text-xs mt-0.5">{meta.desc}</p>
                   {count > 0 && (
@@ -144,7 +145,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <p className="text-brand-600 font-semibold text-sm uppercase tracking-widest mb-1">Recientes</p>
-              <h2 className="text-3xl font-black text-gray-900">Últimas reviews</h2>
+              <h2 className="text-3xl font-black text-gray-900 dark:text-white">Últimas reviews</h2>
             </div>
             <Link
               href="/categoria/portatiles"
@@ -199,14 +200,14 @@ export default function HomePage() {
 
       {/* ── TRUST SECTION ──────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-white rounded-3xl card-shadow p-8 sm:p-12 text-center reveal">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl card-shadow p-8 sm:p-12 text-center reveal">
           <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 rounded-full px-4 py-1.5 text-sm font-semibold mb-5">
             <Shield size={14} /> Metodología transparente
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 text-balance">
+          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-4 text-balance">
             ¿Cómo hacemos nuestras reviews?
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
             Cada producto pasa por un protocolo de pruebas de al menos una semana. Medimos rendimiento con benchmarks estandarizados, autonomía en uso real, calidad de pantalla con colorímetro, y ergonomía en uso diario. Nunca aceptamos dinero de fabricantes a cambio de opiniones positivas.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-center">

@@ -12,7 +12,7 @@ import TableOfContents from '@/components/TableOfContents'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ReviewCard from '@/components/ReviewCard'
 import { CATEGORY_LABELS } from '@/types'
-import { Clock, Calendar, ArrowRight } from 'lucide-react'
+import { Clock, Calendar, ArrowRight, Check, X } from 'lucide-react'
 import { formatDate, formatPrice } from '@/lib/utils'
 import { getLatestReviews } from '@/lib/mdx'
 
@@ -167,12 +167,12 @@ export default function ReviewPage({ params }: Props) {
               <div className="space-y-1 text-sm">
                 {frontmatter.pros.slice(0, 3).map((p, i) => (
                   <p key={i} className="flex items-start gap-2 text-green-700">
-                    <span className="text-green-500 mt-0.5 shrink-0">✓</span>{p}
+                    <Check size={13} className="text-green-500 mt-0.5 shrink-0" aria-hidden="true" />{p}
                   </p>
                 ))}
                 {frontmatter.cons.slice(0, 2).map((c, i) => (
                   <p key={i} className="flex items-start gap-2 text-red-600">
-                    <span className="text-red-400 mt-0.5 shrink-0">✗</span>{c}
+                    <X size={13} className="text-red-400 mt-0.5 shrink-0" aria-hidden="true" />{c}
                   </p>
                 ))}
               </div>

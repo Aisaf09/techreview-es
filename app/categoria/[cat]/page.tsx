@@ -6,7 +6,7 @@ import { getReviewsByCategory, getAllMejor } from '@/lib/mdx'
 import { CATEGORY_LABELS } from '@/types'
 import type { Category } from '@/types'
 import Link from 'next/link'
-import { Trophy } from 'lucide-react'
+import { Trophy, Search } from 'lucide-react'
 
 interface Props { params: { cat: string } }
 
@@ -69,7 +69,7 @@ export default function CategoriaPage({ params }: Props) {
 
       {reviews.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
-          <p className="text-2xl mb-2">🔍</p>
+          <Search size={32} className="mx-auto mb-3 text-gray-300" aria-hidden="true" />
           <p className="font-bold text-gray-700">Próximamente</p>
           <p className="text-sm text-gray-400 mt-1">Estamos preparando análisis de {label.toLowerCase()}.</p>
         </div>

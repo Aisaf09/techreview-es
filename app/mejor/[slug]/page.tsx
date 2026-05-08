@@ -6,7 +6,7 @@ import { getMejor, getAllMejor } from '@/lib/mdx'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import StarRating from '@/components/StarRating'
 import { AffiliateButtonGroup } from '@/components/AffiliateButton'
-import { Trophy, Calendar } from 'lucide-react'
+import { Trophy, Calendar, Check } from 'lucide-react'
 
 interface Props {
   params: { slug: string }
@@ -77,7 +77,7 @@ export default function MejorPage({ params }: Props) {
                   <ul className="space-y-1 mb-4">
                     {product.pros.map((pro, j) => (
                       <li key={j} className="text-sm text-green-700 flex items-center gap-2">
-                        <span className="text-green-500">✓</span> {pro}
+                        <Check size={13} className="text-green-500 shrink-0" aria-hidden="true" /> {pro}
                       </li>
                     ))}
                   </ul>

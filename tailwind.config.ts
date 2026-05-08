@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,11 +25,6 @@ const config: Config = {
           900: "#1e3a8a",
           950: "#172554",
         },
-        accent: {
-          400: "#f59e0b",
-          500: "#f59e0b",
-          600: "#d97706",
-        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
@@ -39,10 +35,10 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        card:       "0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.08)",
-        "card-hover":"0 4px 12px rgba(0,0,0,.1), 0 16px 40px rgba(37,99,235,.15)",
-        "inner-brand": "inset 0 0 0 2px #2563eb",
-        glow:       "0 0 20px rgba(59,130,246,.4)",
+        card:         "0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.08)",
+        "card-hover": "0 4px 12px rgba(0,0,0,.1), 0 16px 40px rgba(37,99,235,.15)",
+        glow:         "0 0 20px rgba(59,130,246,.4)",
+        "dark-card":  "0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.4)",
       },
       animation: {
         "fade-in-up":    "fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) both",
@@ -52,6 +48,7 @@ const config: Config = {
         "float":         "float 4s ease-in-out infinite",
         "gradient-shift":"gradientShift 12s ease infinite",
         "shimmer":       "shimmer 1.5s infinite",
+        "spin-slow":     "spin 3s linear infinite",
       },
       keyframes: {
         fadeInUp:      { from:{opacity:"0",transform:"translateY(24px)"}, to:{opacity:"1",transform:"translateY(0)"} },
@@ -63,13 +60,10 @@ const config: Config = {
         shimmer:       { "0%":{backgroundPosition:"-200% 0"}, "100%":{backgroundPosition:"200% 0"} },
       },
       typography: {
-        DEFAULT: {
-          css: { maxWidth: "none" },
-        },
+        DEFAULT: { css: { maxWidth: "none" } },
+        invert:  { css: { "--tw-prose-body": "#d1d5db", "--tw-prose-headings": "#f9fafb", "--tw-prose-links": "#60a5fa" } },
       },
-      backgroundSize: {
-        "400%": "400% 400%",
-      },
+      backgroundSize: { "400%": "400% 400%" },
     },
   },
   plugins: [typography],

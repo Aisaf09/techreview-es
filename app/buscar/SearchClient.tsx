@@ -101,7 +101,7 @@ export default function SearchClient({ initialData }: { initialData: SearchResul
                       )}
                       {r.rating && (
                         <span className="flex items-center gap-1 text-xs text-amber-600 font-semibold">
-                          ★ {r.rating.toFixed(1)}
+                          <Star size={11} className="fill-amber-500 text-amber-500" aria-hidden="true" /> {r.rating.toFixed(1)}
                         </span>
                       )}
                     </div>
