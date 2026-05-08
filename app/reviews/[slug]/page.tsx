@@ -15,6 +15,7 @@ import { CATEGORY_LABELS } from '@/types'
 import { Clock, Calendar, ArrowRight, Check, X } from 'lucide-react'
 import { formatDate, formatPrice } from '@/lib/utils'
 import { getRelatedReviews } from '@/lib/mdx'
+import AdUnit from '@/components/AdUnit'
 
 interface Props { params: { slug: string } }
 
@@ -132,6 +133,9 @@ export default function ReviewPage({ params }: Props) {
               </div>
             </div>
 
+            {/* Leaderboard ad */}
+            <AdUnit slot="1234567890" format="horizontal" className="my-6" />
+
             {/* Pros / Cons */}
             <ProsConsList pros={frontmatter.pros} cons={frontmatter.cons} />
 
@@ -150,6 +154,9 @@ export default function ReviewPage({ params }: Props) {
               <MDXRemote source={content} />
             </article>
 
+            {/* In-content ad */}
+            <AdUnit slot="0987654321" format="rectangle" className="my-8" />
+
             {/* Bottom affiliate */}
             <div className="mt-10 pt-8 border-t border-gray-100">
               <h3 className="font-black text-gray-900 text-lg mb-4">Ver precios y ofertas</h3>
@@ -159,6 +166,7 @@ export default function ReviewPage({ params }: Props) {
 
           {/* ── Sidebar ─────────────────────────────────────── */}
           <aside className="hidden lg:block space-y-6">
+            <AdUnit slot="1122334455" format="vertical" className="sticky top-20" />
             <TableOfContents />
 
             {/* Quick verdict */}

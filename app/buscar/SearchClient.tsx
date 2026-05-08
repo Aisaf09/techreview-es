@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Search, Star, BookOpen, Trophy } from 'lucide-react'
 import type { SearchResult } from '@/lib/search'
+import { trackSearch } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
 
 const TYPE_META = {
@@ -13,8 +15,17 @@ const TYPE_META = {
 }
 
 export default function SearchClient({ initialData }: { initialData: SearchResult[] }) {
-  const [query, setQuery] = useState('')
+  const searchParams = useSearchParams()
+  const [query,  setQuery]  = useState(searchParams.get('q') ?? '')
   const [filter, setFilter] = useState<'all' | 'review' | 'comparativa' | 'mejor'>('all')
+  const trackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (!query.trim()) return
+    if (trackTimer.current) clearTimeout(trackTimer.current)
+    trackTimer.current = setTimeout(() => trackSearch(query), 800)
+    return () => { if (trackTimer.current) clearTimeout(trackTimer.current) }
+  }, [query])
 
   const results = useMemo(() => {
     let data = initialData

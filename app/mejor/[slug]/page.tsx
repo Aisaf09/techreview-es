@@ -10,8 +10,9 @@ import StarRating from '@/components/StarRating'
 import { AffiliateButtonGroup } from '@/components/AffiliateButton'
 import ReviewCard from '@/components/ReviewCard'
 import NewsletterForm from '@/components/NewsletterForm'
+import FaqAccordion from '@/components/FaqAccordion'
 import {
-  Trophy, Calendar, Check, X, ChevronDown,
+  Trophy, Calendar, Check, X,
   ShoppingCart, ArrowRight, Star, BookOpen,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -60,7 +61,7 @@ export default function MejorPage({ params }: Props) {
   if (!data) notFound()
 
   const { frontmatter, content } = data
-  const related = getRelatedReviews('', frontmatter.category, 3)
+  const related = getRelatedReviews(params.slug, frontmatter.category, 3)
 
   const ldList    = mejorJsonLd(frontmatter, params.slug)
   const ldBread   = breadcrumbJsonLd([
@@ -279,7 +280,7 @@ export default function MejorPage({ params }: Props) {
             </h2>
             <div className="space-y-3">
               {frontmatter.faqs.map((faq, i) => (
-                <FaqItem key={i} q={faq.q} a={faq.a} />
+                <FaqAccordion key={i} q={faq.q} a={faq.a} />
               ))}
             </div>
           </section>
@@ -318,21 +319,3 @@ export default function MejorPage({ params }: Props) {
   )
 }
 
-// ── FAQ accordion component ───────────────────────────────────
-function FaqItem({ q, a }: { q: string; a: string }) {
-  return (
-    <details className="group rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
-      <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-        <span className="font-semibold text-gray-900 dark:text-white text-sm">{q}</span>
-        <ChevronDown
-          size={16}
-          className="text-gray-400 shrink-0 transition-transform group-open:rotate-180"
-          aria-hidden="true"
-        />
-      </summary>
-      <div className="px-5 pb-4 pt-1">
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{a}</p>
-      </div>
-    </details>
-  )
-}

@@ -71,3 +71,13 @@ export function getRelatedReviews(currentSlug: string, category: string, limit =
     .filter((r) => r?.slug !== currentSlug && r?.frontmatter.category === category)
     .slice(0, limit)
 }
+
+export function getTopRatedReviews(limit = 3) {
+  return getAllReviews()
+    .sort((a, b) => (b?.frontmatter.rating ?? 0) - (a?.frontmatter.rating ?? 0))
+    .slice(0, limit)
+}
+
+export function getFeaturedComparativas(limit = 3) {
+  return getAllComparativas().slice(0, limit)
+}

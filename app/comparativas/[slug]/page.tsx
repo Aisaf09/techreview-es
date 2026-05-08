@@ -3,16 +3,16 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { getComparativa, getAllComparativas, getRelatedReviews } from '@/lib/mdx'
+import { getComparativa, getAllComparativas } from '@/lib/mdx'
 import { comparativaJsonLd, faqJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import StarRating from '@/components/StarRating'
 import { AffiliateButtonGroup } from '@/components/AffiliateButton'
-import ReviewCard from '@/components/ReviewCard'
 import NewsletterForm from '@/components/NewsletterForm'
+import FaqAccordion from '@/components/FaqAccordion'
 import {
   Trophy, Calendar, Clock, Check, X,
-  ChevronDown, ArrowRight, Users, BookOpen,
+  Users, BookOpen,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/utils'
@@ -55,8 +55,7 @@ export default function ComparativaPage({ params }: Props) {
   const { frontmatter, content, readingTime } = comp
   const { productA, productB, winner } = frontmatter
 
-  const winnerProduct = winner === 'A' ? productA : winner === 'B' ? productB : null
-  const winnerLabel   = winner === 'A' ? productA.name : winner === 'B' ? productB.name : null
+  const winnerLabel = winner === 'A' ? productA.name : winner === 'B' ? productB.name : null
 
   const ldComp  = comparativaJsonLd(frontmatter, params.slug)
   const ldBread = breadcrumbJsonLd([
@@ -153,7 +152,6 @@ export default function ComparativaPage({ params }: Props) {
                   valA={`${productA.price.toLocaleString('es-ES')} €`}
                   valB={`${productB.price.toLocaleString('es-ES')} €`}
                   winnerSide={productA.price < productB.price ? 'A' : productB.price < productA.price ? 'B' : null}
-                  activeWinner={winner}
                 />
                 {/* Rating row */}
                 <SpecRow
@@ -161,14 +159,13 @@ export default function ComparativaPage({ params }: Props) {
                   valA={productA.rating.toFixed(1)}
                   valB={productB.rating.toFixed(1)}
                   winnerSide={productA.rating > productB.rating ? 'A' : productB.rating > productA.rating ? 'B' : null}
-                  activeWinner={winner}
                 />
                 {/* Dynamic spec rows */}
                 {allSpecKeys.map((key) => {
                   const vA = productA.specs[key] ?? '—'
                   const vB = productB.specs[key] ?? '—'
                   return (
-                    <SpecRow key={key} label={key} valA={vA} valB={vB} winnerSide={null} activeWinner={winner} />
+                    <SpecRow key={key} label={key} valA={vA} valB={vB} winnerSide={null} />
                   )
                 })}
               </tbody>
@@ -238,7 +235,7 @@ export default function ComparativaPage({ params }: Props) {
         <section
           className={cn(
             'rounded-2xl border p-6 mb-10',
-            winnerProduct
+            winnerLabel !== null
               ? 'bg-green-50 dark:bg-green-900/15 border-green-200 dark:border-green-800'
               : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
           )}
@@ -275,6 +272,7 @@ export default function ComparativaPage({ params }: Props) {
               {frontmatter.faqs.map((faq, i) => (
                 <FaqAccordion key={i} q={faq.q} a={faq.a} />
               ))}
+
             </div>
           </section>
         )}
@@ -321,13 +319,12 @@ function AffiliateDuel({
 
 // ── Spec row component ────────────────────────────────────────
 function SpecRow({
-  label, valA, valB, winnerSide, activeWinner,
+  label, valA, valB, winnerSide,
 }: {
   label: string
   valA: string
   valB: string
   winnerSide: 'A' | 'B' | null
-  activeWinner: 'A' | 'B' | 'tie'
 }) {
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
@@ -354,17 +351,3 @@ function SpecRow({
   )
 }
 
-// ── FAQ accordion ─────────────────────────────────────────────
-function FaqAccordion({ q, a }: { q: string; a: string }) {
-  return (
-    <details className="group rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
-      <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-        <span className="font-semibold text-gray-900 dark:text-white text-sm">{q}</span>
-        <ChevronDown size={16} className="text-gray-400 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-      </summary>
-      <div className="px-5 pb-4 pt-1">
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{a}</p>
-      </div>
-    </details>
-  )
-}

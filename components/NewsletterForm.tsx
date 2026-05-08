@@ -18,9 +18,23 @@ export default function NewsletterForm({ className }: { className?: string }) {
     }
     setError('')
     setStatus('loading')
-    // Simulated submission — wire up to real API (Mailchimp, ConvertKit, etc.)
-    await new Promise((r) => setTimeout(r, 800))
-    setStatus('success')
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Ha ocurrido un error. Inténtalo de nuevo.')
+        setStatus('error')
+      } else {
+        setStatus('success')
+      }
+    } catch {
+      setError('Error de conexión. Inténtalo de nuevo.')
+      setStatus('error')
+    }
   }
 
   if (status === 'success') {

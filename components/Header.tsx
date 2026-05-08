@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, X, Cpu, ChevronDown, Laptop, Smartphone, Headphones, Tablet, Monitor } from 'lucide-react'
 import { CATEGORY_LABELS } from '@/types'
 import type { Category } from '@/types'
@@ -21,10 +21,24 @@ const categoryIcons: Record<Category, ReactNode> = {
 }
 
 export default function Header() {
-  const [mobileOpen,  setMobileOpen]  = useState(false)
-  const [scrolled,    setScrolled]    = useState(false)
-  const [catOpen,     setCatOpen]     = useState(false)
+  const [mobileOpen,   setMobileOpen]   = useState(false)
+  const [scrolled,     setScrolled]     = useState(false)
+  const [catOpen,      setCatOpen]      = useState(false)
+  const [searchOpen,   setSearchOpen]   = useState(false)
+  const [searchQuery,  setSearchQuery]  = useState('')
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const pathname = usePathname()
+  const router   = useRouter()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const q = searchQuery.trim()
+    if (q) {
+      router.push(`/buscar?q=${encodeURIComponent(q)}`)
+      setSearchQuery('')
+      setSearchOpen(false)
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -106,13 +120,33 @@ export default function Header() {
               </Link>
             ))}
 
-            <Link
-              href="/buscar"
-              aria-label="Buscar"
-              className="ml-2 flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-brand-600 hover:bg-brand-50 transition-colors"
-            >
-              <Search size={15} />
-            </Link>
+            {searchOpen ? (
+              <form onSubmit={handleSearch} className="flex items-center gap-1 ml-2">
+                <input
+                  ref={searchInputRef}
+                  autoFocus
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onBlur={() => { if (!searchQuery) setSearchOpen(false) }}
+                  onKeyDown={(e) => { if (e.key === 'Escape') { setSearchOpen(false); setSearchQuery('') } }}
+                  placeholder="Buscar..."
+                  aria-label="Buscar en TechReview ES"
+                  className="w-44 pl-3 pr-2 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+                <button type="submit" aria-label="Buscar" className="p-1.5 text-brand-600 dark:text-brand-400">
+                  <Search size={15} aria-hidden="true" />
+                </button>
+              </form>
+            ) : (
+              <button
+                onClick={() => setSearchOpen(true)}
+                aria-label="Abrir buscador"
+                className="ml-2 flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/30 transition-colors"
+              >
+                <Search size={15} aria-hidden="true" />
+              </button>
+            )}
 
             <ThemeToggle />
           </nav>
@@ -148,8 +182,8 @@ export default function Header() {
             </Link>
           ))}
           <div className="border-t border-gray-100 dark:border-gray-800 my-2" />
-          <Link href="/buscar" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-50 dark:hover:bg-brand-900/30">
-            <Search size={16} /> Buscar
+          <Link href="/buscar" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-brand-50 dark:hover:bg-brand-900/30 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+            <Search size={16} aria-hidden="true" /> Buscar
           </Link>
         </div>
       </div>

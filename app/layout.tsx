@@ -4,8 +4,10 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import AnalyticsClient from '@/components/AnalyticsClient'
 import ScrollReveal from '@/components/ScrollReveal'
 import ThemeProvider from '@/components/ThemeProvider'
+import Script from 'next/script'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -75,6 +77,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased font-sans transition-colors duration-200">
         <ThemeProvider>
           <GoogleAnalytics />
+          <AnalyticsClient />
+          {process.env.NEXT_PUBLIC_ADSENSE_ID && (
+            <Script
+              async
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
+              crossOrigin="anonymous"
+              strategy="lazyOnload"
+            />
+          )}
           <Header />
           <main>{children}</main>
           <Footer />
