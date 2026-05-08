@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     type: 'website', locale: 'es_ES', siteName: SITE_NAME, url: SITE_URL,
     title: `${SITE_NAME} — Análisis y comparativas de tecnología`,
     description: 'Reviews independientes, comparativas y guías de compra de la mejor tecnología.',
-    images: [{ url: `${SITE_URL}/og-default.jpg`, width: 1200, height: 630, alt: SITE_NAME }],
+    images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
     card: 'summary_large_image', site: '@techreviewes', creator: '@techreviewes',
     title: `${SITE_NAME} — Análisis y comparativas de tecnología`,
-    images: [`${SITE_URL}/og-default.jpg`],
+    images: [`${SITE_URL}/opengraph-image`],
   },
   robots: {
     index: true, follow: true,
