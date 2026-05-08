@@ -4,41 +4,113 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import ScrollReveal from '@/components/ScrollReveal'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'TechReview ES'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview.es'
+const SITE_URL  = process.env.NEXT_PUBLIC_SITE_URL  || 'https://techreview.es'
 
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_NAME} — Análisis y comparativas de tecnología`,
+    default:  `${SITE_NAME} — Análisis y comparativas de tecnología`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    'Reviews independientes, comparativas y guías de compra de portátiles, móviles, auriculares, tablets y monitores.',
+    'Reviews independientes, comparativas y guías de compra de portátiles, móviles, auriculares, tablets y monitores. Análisis técnicos honestos para ayudarte a elegir mejor.',
   metadataBase: new URL(SITE_URL),
+  keywords: ['reviews tecnología', 'comparativas portátiles', 'mejores móviles', 'análisis auriculares', 'guía de compra tecnología'],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    type: 'website',
-    locale: 'es_ES',
-    siteName: SITE_NAME,
-    url: SITE_URL,
+    type:      'website',
+    locale:    'es_ES',
+    siteName:  SITE_NAME,
+    url:       SITE_URL,
+    title:     `${SITE_NAME} — Análisis y comparativas de tecnología`,
+    description: 'Reviews independientes, comparativas y guías de compra de la mejor tecnología.',
+    images: [{ url: `${SITE_URL}/og-default.jpg`, width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@techreviewes',
+    card:        'summary_large_image',
+    site:        '@techreviewes',
+    creator:     '@techreviewes',
+    title:       `${SITE_NAME} — Análisis y comparativas de tecnología`,
+    description: 'Reviews independientes, comparativas y guías de compra de la mejor tecnología.',
+    images:      [`${SITE_URL}/og-default.jpg`],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index:               true,
+    follow:              true,
+    googleBot: {
+      index:             true,
+      follow:            true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet':       -1,
+    },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || '',
+  },
+}
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name:  SITE_NAME,
+  url:   SITE_URL,
+  logo:  `${SITE_URL}/logo.png`,
+  description: 'Análisis independientes, comparativas honestas y guías de compra de tecnología.',
+  sameAs: [
+    'https://twitter.com/techreviewes',
+  ],
+  contactPoint: {
+    '@type':       'ContactPoint',
+    contactType:   'customer service',
+    availableLanguage: 'Spanish',
+  },
+}
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type':    'WebSite',
+  name:       SITE_NAME,
+  url:        SITE_URL,
+  potentialAction: {
+    '@type':       'SearchAction',
+    target:        `${SITE_URL}/buscar?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body className="bg-gray-50 text-gray-900 antialiased font-sans">
         <GoogleAnalytics />
         <Header />
         <main>{children}</main>
         <Footer />
+        <ScrollReveal />
       </body>
     </html>
   )

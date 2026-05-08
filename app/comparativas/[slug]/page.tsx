@@ -5,11 +5,12 @@ import { getComparativa, getAllComparativas } from '@/lib/mdx'
 import { comparativaJsonLd } from '@/lib/structured-data'
 import CompareTable from '@/components/CompareTable'
 import BreadCrumbs from '@/components/BreadCrumbs'
-import { Calendar, Clock } from 'lucide-react'
+import { Calendar, Clock, Trophy } from 'lucide-react'
+import { formatDate } from '@/lib/utils'
 
-interface Props {
-  params: { slug: string }
-}
+interface Props { params: { slug: string } }
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview.es'
 
 export async function generateStaticParams() {
   return getAllComparativas().map((c) => ({ slug: c!.slug }))
@@ -18,15 +19,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const comp = getComparativa(params.slug)
   if (!comp) return {}
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview.es'
+  const url = `${SITE_URL}/comparativas/${params.slug}`
   return {
-    title: comp.frontmatter.title,
+    title:       comp.frontmatter.title,
     description: comp.frontmatter.description,
-    openGraph: {
-      title: comp.frontmatter.title,
-      description: comp.frontmatter.description,
-      url: `${SITE_URL}/comparativas/${params.slug}`,
-    },
+    alternates:  { canonical: url },
+    openGraph:   { title: comp.frontmatter.title, description: comp.frontmatter.description, url },
   }
 }
 
@@ -37,46 +35,45 @@ export default function ComparativaPage({ params }: Props) {
   const { frontmatter, content, readingTime } = comp
   const jsonLd = comparativaJsonLd(frontmatter, params.slug)
 
-  const verdictColors = {
-    A: 'bg-green-100 text-green-800 border-green-200',
-    B: 'bg-blue-100 text-blue-800 border-blue-200',
-    tie: 'bg-gray-100 text-gray-800 border-gray-200',
-  }
-
-  const verdictLabels = {
-    A: `Ganador: ${frontmatter.productA.name}`,
-    B: `Ganador: ${frontmatter.productB.name}`,
-    tie: 'Empate técnico',
-  }
+  const winnerName = frontmatter.winner === 'A'
+    ? frontmatter.productA.name
+    : frontmatter.winner === 'B'
+    ? frontmatter.productB.name
+    : null
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <BreadCrumbs
-          crumbs={[
-            { label: 'Comparativas', href: '/comparativas' },
-            { label: frontmatter.title },
-          ]}
-        />
+        <BreadCrumbs crumbs={[
+          { label: 'Comparativas', href: '/comparativas/iphone-vs-samsung' },
+          { label: frontmatter.title },
+        ]} />
+
         <div className="mt-8">
-          <span className="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">
+          <span className="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-wide">
             Comparativa
           </span>
-          <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">{frontmatter.title}</h1>
-          <p className="text-gray-500 mb-4">{frontmatter.description}</p>
-          <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
-            <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(frontmatter.date).toLocaleDateString('es-ES')}</span>
+          <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3 text-balance">{frontmatter.title}</h1>
+          <p className="text-gray-500 mb-4 leading-relaxed">{frontmatter.description}</p>
+
+          <div className="flex items-center gap-4 text-sm text-gray-400 mb-6 flex-wrap">
+            <span className="flex items-center gap-1"><Calendar size={14} /> {formatDate(frontmatter.date)}</span>
             <span className="flex items-center gap-1"><Clock size={14} /> {readingTime}</span>
           </div>
 
-          {/* Verdict badge */}
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl border font-semibold text-sm mb-8 ${verdictColors[frontmatter.winner]}`}>
-            {verdictLabels[frontmatter.winner]}
-          </div>
+          {/* Winner banner */}
+          {winnerName ? (
+            <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-5 py-3.5 mb-8 w-fit">
+              <Trophy size={18} className="text-green-600" />
+              <span className="font-bold text-green-800">Ganador: {winnerName}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-5 py-3.5 mb-8 w-fit">
+              <span className="font-bold text-gray-700">Empate técnico — depende de tu perfil</span>
+            </div>
+          )}
 
           <CompareTable
             productA={frontmatter.productA}
@@ -84,13 +81,15 @@ export default function ComparativaPage({ params }: Props) {
             winner={frontmatter.winner}
           />
 
-          {/* Verdict text */}
+          {/* Verdict */}
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-8">
-            <h2 className="font-black text-gray-900 text-lg mb-2">Veredicto final</h2>
+            <h2 className="font-black text-gray-900 text-lg mb-2 flex items-center gap-2">
+              <Trophy size={18} className="text-amber-500" /> Veredicto final
+            </h2>
             <p className="text-gray-700 leading-relaxed">{frontmatter.verdict}</p>
           </div>
 
-          <article className="prose prose-gray max-w-none prose-headings:font-black prose-a:text-brand-600">
+          <article className="prose prose-gray max-w-none">
             <MDXRemote source={content} />
           </article>
         </div>
