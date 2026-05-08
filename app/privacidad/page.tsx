@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   robots: { index: true, follow: false },
 }
 
-const SITE_URL   = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview-es.vercel.app'
-const SITE_NAME  = 'TechReview ES'
-const CONTACT_EMAIL = 'contacto@techreview.es'
+const SITE_URL      = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview-es.vercel.app'
+const SITE_NAME     = 'TechReview ES'
+const CONTACT_EMAIL = 'webcraftstudio0109@gmail.com'
 
 export default function PrivacidadPage() {
   const updated = '8 de mayo de 2026'
@@ -29,10 +29,9 @@ export default function PrivacidadPage() {
           El responsable del tratamiento de los datos recabados a través de <strong>{SITE_URL}</strong> es el titular del sitio web <strong>{SITE_NAME}</strong>.
         </p>
         <ul>
-          <li><strong>Nombre/Razón social:</strong> [TU NOMBRE COMPLETO O RAZÓN SOCIAL]</li>
-          <li><strong>NIF/CIF:</strong> [TU NIF]</li>
-          <li><strong>Dirección:</strong> [TU DIRECCIÓN]</li>
+          <li><strong>Nombre:</strong> TechReview ES</li>
           <li><strong>Email de contacto:</strong> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+          <li><strong>Web:</strong> <a href={SITE_URL}>{SITE_URL}</a></li>
         </ul>
 
         <h2>2. Datos que recabamos</h2>

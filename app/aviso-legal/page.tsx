@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 const SITE_URL      = process.env.NEXT_PUBLIC_SITE_URL || 'https://techreview-es.vercel.app'
-const CONTACT_EMAIL = 'contacto@techreview.es'
+const CONTACT_EMAIL = 'webcraftstudio0109@gmail.com'
 
 export default function AvisoLegalPage() {
   const updated = '8 de mayo de 2026'
@@ -26,9 +26,7 @@ export default function AvisoLegalPage() {
         <h2>1. Titular del sitio web</h2>
         <p>En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSICE), se informa:</p>
         <ul>
-          <li><strong>Nombre/Razón social:</strong> [TU NOMBRE COMPLETO O RAZÓN SOCIAL]</li>
-          <li><strong>NIF/CIF:</strong> [TU NIF]</li>
-          <li><strong>Domicilio:</strong> [TU DIRECCIÓN COMPLETA, CIUDAD, CP, PAÍS]</li>
+          <li><strong>Nombre:</strong> TechReview ES</li>
           <li><strong>Email:</strong> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
           <li><strong>Sitio web:</strong> <a href={SITE_URL}>{SITE_URL}</a></li>
         </ul>
