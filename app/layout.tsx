@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     index: true, follow: true,
     googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
+  verification: {
+    google: 'fOHm4Z4rF_6G5QFLouwb6cx0g80UI39sRyUYjZsL0b4',
+  },
 }
 
 const organizationJsonLd = {
