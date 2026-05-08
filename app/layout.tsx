@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import AnalyticsClient from '@/components/AnalyticsClient'
+import CookieBanner from '@/components/CookieBanner'
 import ScrollReveal from '@/components/ScrollReveal'
 import ThemeProvider from '@/components/ThemeProvider'
 import Script from 'next/script'
@@ -93,6 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>{children}</main>
           <Footer />
           <ScrollReveal />
+          <CookieBanner />
         </ThemeProvider>
       </body>
     </html>

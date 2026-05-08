@@ -97,11 +97,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
+        <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           <p>© {new Date().getFullYear()} TechReview ES. Todos los derechos reservados.</p>
-          <p className="text-center">
-            Participamos en programas de afiliación de Amazon y otras tiendas. Los precios son orientativos y pueden variar.
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            <Link href="/privacidad" className="hover:text-gray-400 transition-colors">Privacidad</Link>
+            <Link href="/aviso-legal" className="hover:text-gray-400 transition-colors">Aviso legal</Link>
+            <span>Participamos en programas de afiliación. Los precios son orientativos.</span>
+          </div>
         </div>
       </div>
     </footer>
