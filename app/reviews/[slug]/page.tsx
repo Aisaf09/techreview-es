@@ -16,6 +16,9 @@ import { Clock, Calendar, ArrowRight, Check, X } from 'lucide-react'
 import { formatDate, formatPrice } from '@/lib/utils'
 import { getRelatedReviews } from '@/lib/mdx'
 import AdUnit from '@/components/AdUnit'
+import PriceComparisonWidget from '@/components/PriceComparisonWidget'
+import ExitIntentPopup from '@/components/ExitIntentPopup'
+import AffiliateDisclosure from '@/components/AffiliateDisclosure'
 
 interface Props { params: { slug: string } }
 
@@ -70,6 +73,7 @@ export default function ReviewPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ExitIntentPopup productName={`${frontmatter.brand} ${frontmatter.model}`} links={frontmatter.affiliateLinks} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <BreadCrumbs crumbs={[
@@ -132,6 +136,19 @@ export default function ReviewPage({ params }: Props) {
                 </div>
               </div>
             </div>
+
+            {/* Affiliate disclosure */}
+            <AffiliateDisclosure variant="banner" className="mb-6" />
+
+            {/* Price comparison widget */}
+            <PriceComparisonWidget
+              productName={`${frontmatter.brand} ${frontmatter.model}`}
+              links={frontmatter.affiliateLinks}
+              weeklyBuyers={frontmatter.weeklyBuyers}
+              stockUrgency={frontmatter.stockUrgency}
+              lastUpdated={frontmatter.priceLastUpdated}
+              className="mb-6"
+            />
 
             {/* Leaderboard ad */}
             <AdUnit slot="1234567890" format="horizontal" className="my-6" />

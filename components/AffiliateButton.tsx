@@ -2,41 +2,34 @@
 
 import { ExternalLink, ShoppingCart } from 'lucide-react'
 import { trackAffiliateClick } from '@/lib/analytics'
+import { buildAffiliateUrl, STORE_CONFIG } from '@/lib/affiliate'
 import type { AffiliateLink } from '@/types'
-import { STORE_LABELS } from '@/types'
 
 interface AffiliateButtonProps {
   link: AffiliateLink
   productName: string
 }
 
-const storeColors: Record<AffiliateLink['store'], string> = {
-  amazon: 'bg-amber-400 hover:bg-amber-500 text-gray-900',
-  pccomponentes: 'bg-blue-600 hover:bg-blue-700 text-white',
-  mediamarkt: 'bg-red-600 hover:bg-red-700 text-white',
-  fnac: 'bg-yellow-500 hover:bg-yellow-600 text-gray-900',
-}
-
 export default function AffiliateButton({ link, productName }: AffiliateButtonProps) {
-  const handleClick = () => {
-    trackAffiliateClick(link.store, productName, link.price)
-  }
+  const cfg = STORE_CONFIG[link.store]
+  const url = buildAffiliateUrl(link)
 
   return (
     <a
-      href={link.url}
+      href={url}
       target="_blank"
-      rel="noopener noreferrer sponsored"
-      onClick={handleClick}
-      className={`flex items-center justify-between gap-3 px-5 py-3 rounded-xl font-semibold transition-colors ${storeColors[link.store]}`}
+      rel="noopener noreferrer nofollow sponsored"
+      onClick={() => trackAffiliateClick(link.store, productName, link.price)}
+      aria-label={`Ver ${productName} en ${cfg.label} por ${link.price.toLocaleString('es-ES')} ${link.currency}`}
+      className={`flex items-center justify-between gap-3 px-5 py-3 rounded-xl font-semibold transition-colors ${cfg.color}`}
     >
       <span className="flex items-center gap-2">
-        <ShoppingCart size={16} />
-        Ver oferta en {STORE_LABELS[link.store]}
+        <ShoppingCart size={16} aria-hidden="true" />
+        Ver oferta en {cfg.label}
       </span>
       <span className="flex items-center gap-1">
         {link.price.toLocaleString('es-ES')} {link.currency}
-        <ExternalLink size={14} />
+        <ExternalLink size={14} aria-hidden="true" />
       </span>
     </a>
   )
@@ -50,6 +43,7 @@ export function AffiliateButtonGroup({ links, productName }: { links: AffiliateL
       ))}
       <p className="text-xs text-gray-400 text-center mt-2">
         Precio orientativo. Puede variar en el momento de la compra.
+        Como Asociado de Amazon, obtenemos ingresos por las compras a través de nuestros enlaces.
       </p>
     </div>
   )

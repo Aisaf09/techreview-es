@@ -20,6 +20,9 @@ export interface ReviewFrontmatter {
   specs: Record<string, string>
   affiliateLinks: AffiliateLink[]
   featured?: boolean
+  weeklyBuyers?: number
+  stockUrgency?: string
+  priceLastUpdated?: string
 }
 
 export interface ComparativaFrontmatter {

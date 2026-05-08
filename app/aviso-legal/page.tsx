@@ -60,10 +60,15 @@ export default function AvisoLegalPage() {
 
         <h2>5. Programa de afiliados</h2>
         <p>
-          Este sitio participa en el <strong>Programa de Afiliados de Amazon</strong> y otros programas de afiliación. Algunos enlaces del sitio son enlaces de afiliado, lo que significa que podemos recibir una comisión si realizas una compra a través de ellos, sin coste adicional para ti.
+          Esta web participa en programas de afiliación de <strong>Amazon</strong>, <strong>PcComponentes</strong> y <strong>MediaMarkt</strong>. Esto significa que obtenemos una comisión si realizas una compra a través de nuestros enlaces, sin coste adicional para ti.
         </p>
+        <ul>
+          <li><strong>Amazon Associates:</strong> Como Asociado de Amazon, obtenemos ingresos por las compras realizadas a través de nuestros enlaces. Los enlaces de Amazon incluyen el parámetro <code>?tag=techreviewes-21</code>.</li>
+          <li><strong>PcComponentes:</strong> Participamos en el programa de afiliados de PcComponentes. Los enlaces incluyen el parámetro <code>?ref=techreviewes</code>.</li>
+          <li><strong>MediaMarkt:</strong> Los enlaces a MediaMarkt utilizan la red de afiliados Awin para el seguimiento de conversiones.</li>
+        </ul>
         <p>
-          Esta relación no influye en la independencia de nuestros análisis ni en las puntuaciones asignadas a los productos.
+          Todos los enlaces de afiliado están marcados con los atributos <code>rel="nofollow sponsored"</code> conforme a las directrices de Google y las buenas prácticas del sector. Esta relación no influye en la independencia de nuestros análisis ni en las puntuaciones asignadas a los productos.
         </p>
 
         <h2>6. Política de publicidad</h2>
