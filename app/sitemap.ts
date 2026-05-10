@@ -33,9 +33,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
+  const staticPages = [
+    { url: SITE_URL,                        changeFrequency: 'daily'   as const, priority: 1.0 },
+    { url: `${SITE_URL}/about`,             changeFrequency: 'monthly' as const, priority: 0.5 },
+    { url: `${SITE_URL}/contacto`,          changeFrequency: 'monthly' as const, priority: 0.4 },
+    { url: `${SITE_URL}/productos`,         changeFrequency: 'weekly'  as const, priority: 0.6 },
+    { url: `${SITE_URL}/buscar`,            changeFrequency: 'monthly' as const, priority: 0.3 },
+    { url: `${SITE_URL}/privacidad`,        changeFrequency: 'yearly'  as const, priority: 0.2 },
+    { url: `${SITE_URL}/aviso-legal`,       changeFrequency: 'yearly'  as const, priority: 0.2 },
+  ].map((p) => ({ ...p, lastModified: new Date() }))
+
   return [
-    { url: SITE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
-    { url: `${SITE_URL}/buscar`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    ...staticPages,
     ...reviews,
     ...comparativas,
     ...mejor,
